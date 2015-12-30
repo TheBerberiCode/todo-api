@@ -28,12 +28,14 @@ app.get('/todos/:id', function(req,res){
 });
 
 app.post('/todos',function(req,res){
-	var body = req.body;
+	_.pick(body, 'id','completed','description');
+	var body = _.pick(req.body, 'id','completed','description').req.body;
 
-	if(!_.isBoolean(body.completed) || !_.isString(body.descripton) || body.descripton.trim().length === 0) {
+	if(!_.isBoolean(body.completed) || !_.isString(body.descripton) || body.description.trim().length === 0) {
 		return res.status(400).send();
 	}else
 	{
+	body.description = body.description.trim();
 	body.id = todoNextId;
 	todos.push(body);
 	todoNextId++;	
