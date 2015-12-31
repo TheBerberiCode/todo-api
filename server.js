@@ -3,7 +3,9 @@ var app = express();
 var _ = require('underscore');
 var bodyParser = require('body-parser');
 var PORT = process.env.PORT || 3000;
-var todos = [];
+var todos = [{
+	'complete':true
+}];
 var todoNextId = 1;
 
 app.use(bodyParser.json);
@@ -40,7 +42,7 @@ app.post('/todos',function(req,res){
 	todoNextId++;	
 
 
-	console.log('descriptop:' + body.descripton);
+	console.log('descriptop:' + body.description);
 	res.json(body);
 });
 
