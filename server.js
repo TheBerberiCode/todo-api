@@ -28,7 +28,6 @@ app.get('/todos/:id', function(req,res){
 });
 
 app.post('/todos',function(req,res){
-	_.pick(body, 'id','completed','description');
 	var body = _.pick(req.body,'completed','description');
 
 	if(!_.isBoolean(body.completed) || !_.isString(body.descripton) || body.description.trim().length === 0) {
