@@ -29,17 +29,17 @@ app.get('/todos/:id', function(req,res){
 
 app.post('/todos',function(req,res){
 	_.pick(body, 'id','completed','description');
-	var body = _.pick(req.body, 'id','completed','description').req.body;
+	var body = _.pick(req.body,'completed','description');
 
 	if(!_.isBoolean(body.completed) || !_.isString(body.descripton) || body.description.trim().length === 0) {
 		return res.status(400).send();
-	}else
-	{
+	}
+	
 	body.description = body.description.trim();
 	body.id = todoNextId;
 	todos.push(body);
 	todoNextId++;	
-	}
+
 
 	console.log('descriptop:' + body.descripton);
 	res.json(body);
