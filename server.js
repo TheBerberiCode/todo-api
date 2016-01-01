@@ -8,7 +8,7 @@ var todos = [{
 }];
 var todoNextId = 1;
 
-app.use(bodyParser.json);
+app.use(bodyParser.json());
 
 app.get('/', function(req,res){
 	res.send('Todo API Root');
