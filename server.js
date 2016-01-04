@@ -3,10 +3,8 @@ var app = express();
 var _ = require('underscore');
 var bodyParser = require('body-parser');
 var PORT = process.env.PORT || 3000;
-var todos = [{
-	'complete':true
-}];
 var todoNextId = 1;
+var todos = [];
 
 app.use(bodyParser.json());
 
@@ -32,7 +30,7 @@ app.get('/todos/:id', function(req,res){
 app.post('/todos',function(req,res){
 	var body = _.pick(req.body,'completed','description');
 
-	if(!_.isBoolean(body.completed) || !_.isString(body.descripton) || body.description.trim().length === 0) {
+	if(!_.isBoolean(body.completed) || !_.isString(body.description) || body.description.trim().length === 0) {
 		return res.status(400).send();
 	}
 	
