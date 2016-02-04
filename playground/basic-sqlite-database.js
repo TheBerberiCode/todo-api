@@ -22,6 +22,7 @@ var Todo = sequelize.define('todo', {
 sequelize.sync().then( function(){
 	console.log('Everything is synced');
 
+	//finds a todo with a certain id
 	Todo.findById(1).then(function(todo){
 		if(todo){
 			console.log(todo.toJSON());
@@ -30,6 +31,8 @@ sequelize.sync().then( function(){
 		}
 	});
 
+
+	//creates a dummy todo
 	Todo.create({
 		description: 'take out trash'
 	}).then(function(todo){
