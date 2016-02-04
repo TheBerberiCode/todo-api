@@ -6,21 +6,36 @@ var sequelize = new Sequelize(undefined,undefined,undefined, {
 
 var Todo = sequelize.define('todo', {
 	description: {
-		type: Sequelize.STRING
+		type: Sequelize.STRING,
+		allowNull: false,
+		validate: {
+			len: [1, 250]
+		}
 	},
 	completed: {
-		type: Sequelize.BOOLEAN
+		type: Sequelize.BOOLEAN,
+		allowNull: false,
+		defaultValue: false
 	}
 });
 
-sequelize.sync({force:true}).then( function(){
+sequelize.sync().then( function(){
 	console.log('Everything is synced');
 
+	Todo.findById(1).then(function(todo){
+		if(todo){
+			console.log(todo.toJSON());
+		}else{
+			console.log('Could not find Todo');
+		}
+	});
+
 	Todo.create({
-		description: 'Walking my dog',
-		completed: false
+		description: 'take out trash'
 	}).then(function(todo){
 		console.log('Finished');
 		console.log(todo);
+	}).catch(function(e){
+		console.log(e);
 	});
 });
