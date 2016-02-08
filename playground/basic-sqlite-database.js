@@ -31,6 +31,8 @@ sequelize.sync().then( function(){
 		}
 	});
 
+});
+
 
 	//creates a dummy todo
 	Todo.create({
