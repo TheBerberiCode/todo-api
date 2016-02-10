@@ -8,13 +8,6 @@ var PORT = process.env.PORT || 3000;
 var middleware = require('./middleware.js')(db);
 
 
-var todos = [{
-	'complete': true
-}];
-
-var todoNextId = 1;
-var todos = [];
-
 app.use(bodyParser.json());
 
 
