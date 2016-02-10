@@ -5,6 +5,7 @@ var bcrypt = require('bcryptjs');
 var bodyParser = require('body-parser');
 var db = require('./db.js');
 var PORT = process.env.PORT || 3000;
+var middleware = require('./middleware.js')(db);
 
 
 var todos = [{
@@ -21,7 +22,7 @@ app.get('/', function(req, res) {
 	res.send('Testing!');
 });
 
-app.get('/todos', function(req, res) {
+app.get('/todos', middleware.requireAuthentication, function(req, res) {
 	var query = req.query;
 	var where = {};
 
@@ -47,7 +48,7 @@ app.get('/todos', function(req, res) {
 
 });
 
-app.get('/todos/:id', function(req, res) {
+app.get('/todos/:id',  middleware.requireAuthentication, function(req, res) {
 	var todoID = parseInt(req.params.id, 10);
 
 	db.todo.findById(todoID).then(function(todo) {
@@ -61,7 +62,7 @@ app.get('/todos/:id', function(req, res) {
 	});
 });
 
-app.post('/todos', function(req, res) {
+app.post('/todos', middleware.requireAuthentication, function(req, res) {
 	var body = _.pick(req.body, 'completed', 'description');
 
 	db.todo.create(body).then(function(todo) {
@@ -73,7 +74,7 @@ app.post('/todos', function(req, res) {
 
 // DELETE /todos/:id
 
-app.delete('/todos/:id', function(req, res) {
+app.delete('/todos/:id', middleware.requireAuthentication, function(req, res) {
 	var idToDelete = parseInt(req.params.id, 10);
 
 	db.todo.destroy({
@@ -135,28 +136,27 @@ app.post('/users', function(req, res) {
 
 //POST users/login
 
-app.post('/users/login', function(req,res) {
+app.post('/users/login', function(req, res) {
 	var body = _.pick(req.body, 'email', 'password');
 
-	
 
 
-	db.user.authenticate(body).then(function (user) {
+	db.user.authenticate(body).then(function(user) {
 
 		var token = user.generateToken('authentication');
 
-		if(token) {
-		res.header('Auth', token).json(user.toPublicJSON());
+		if (token) {
+			res.header('Auth', token).json(user.toPublicJSON());
 		} else {
 			res.status(401).send()
 		}
 
-		
-	}, function (e) {
+
+	}, function(e) {
 		res.status(401).send();
 	});
 
-	
+
 });
 
 
