@@ -96,7 +96,7 @@ app.delete('/todos/:id', middleware.requireAuthentication, function(req, res) {
 
 //PUT /todos/:id
 
-app.put('/todos/:id', function(req, res) {
+app.put('/todos/:id', middleware.requireAuthentication, function(req, res) {
 	var todoID = parseInt(req.params.id, 10);
 	var body = _.pick(req.body, 'completed', 'description');
 	var attributes = {};
